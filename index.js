@@ -90,7 +90,21 @@ document.addEventListener('DOMContentLoaded', event => {
   // Write code that needs to run after the DOM is fully loaded in here
   const questionList = q('#question-list');
   const questionDetails = q('#question-details');
+  const questionForm = q('#question-form');
+  const questionNew = q('#question-new');
   const nav = q('nav');
+
+  function showQuestion (id) {
+    return Question
+      .get(id)
+      .then(renderQuestion)
+      .then(html => {
+        questionDetails.innerHTML = html;
+        questionDetails.classList.remove('hidden');
+        questionList.classList.add('hidden');
+        questionNew.classList.add('hidden');
+      });
+  }
 
   Question
     .getAll()
@@ -107,6 +121,12 @@ document.addEventListener('DOMContentLoaded', event => {
       case 'question-list':
         questionDetails.classList.add('hidden');
         questionList.classList.remove('hidden');
+        questionNew.classList.add('hidden');
+        break;
+      case 'question-new':
+        questionDetails.classList.add('hidden');
+        questionList.classList.add('hidden');
+        questionNew.classList.remove('hidden');
         break;
     }
   })
@@ -117,16 +137,29 @@ document.addEventListener('DOMContentLoaded', event => {
     if (target.matches('.question-summary > a')) {
       event.preventDefault();
       const id = target.getAttribute('data-id');
-
-      Question
-        .get(id)
-        .then(renderQuestion)
-        .then(html => {
-          questionDetails.innerHTML = html;
-          questionDetails.classList.remove('hidden');
-          questionList.classList.add('hidden');
-        });
+      showQuestion(id);
     }
+  });
+
+  questionForm.addEventListener('submit', event => {
+    const {currentTarget} = event;
+    event.preventDefault();
+
+    const fData = new FormData(currentTarget);
+
+    Question
+      .post({
+        title: fData.get('title'),
+        body: fData.get('body')
+      })
+      .then(({id}) => showQuestion(id))
+      .then(() => {
+        currentTarget.reset();
+        Question
+          .getAll()
+          .then(renderQuestions)
+          .then(html => { questionList.innerHTML = html });
+      });
   });
 });
 

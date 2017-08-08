@@ -10,11 +10,24 @@
     <nav>
       <a href data-href="question-list">Questions</a>
       |
-      <a href data-href="question-form">New Question</a>
+      <a href data-href="question-new">New Question</a>
     </nav>
 
     <h1>Awesome Answers</h1>
 
+    <div id="question-new" class="hidden">
+      <form id="question-form">
+        <div>
+          <label for="title">Title</label>
+          <input name="title" id="title" />
+        </div>
+        <div>
+          <label for="body">Body</label>
+          <textarea name="body" id="body"> </textarea>
+        </div>
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
     <div id="question-details" class="hidden"> </div>
     <div id="question-list"> </div>
   </body>
