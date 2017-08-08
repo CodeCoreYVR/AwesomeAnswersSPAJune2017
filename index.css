@@ -1,0 +1,19 @@
+html {
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+* {
+  font-family: inherit;
+}
+
+a {
+  color: DeepSkyBlue;
+}
+
+a:active {
+  color: SkyBlue;
+}
+
+#question-list > *:not(:last-child) {
+  margin-bottom: 10px;
+}

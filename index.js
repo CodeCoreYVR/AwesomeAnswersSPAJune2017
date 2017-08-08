@@ -47,6 +47,33 @@ Question.getAll()
 Question.get(400)
 */
 
+// Node Selector Helpers
+function q (query) { return document.querySelector(query); }
+function qs (query) { return document.querySelectorAll(query); }
+
+// View
+function renderQuestions (questions = []) {
+  return questions
+    .map(question => `
+      <div class='question-summary'>
+        <a href>${question.title}</a>
+      </div>
+    `)
+    .join('');
+}
+
+document.addEventListener('DOMContentLoaded', event => {
+  // Write code that needs to run after the DOM is fully loaded in here
+  const questionList = q('#question-list');
+
+  Question
+    .getAll()
+    .then(renderQuestions)
+    .then(html => {
+      questionList.innerHTML = html;
+    });
+});
+
 
 
 
