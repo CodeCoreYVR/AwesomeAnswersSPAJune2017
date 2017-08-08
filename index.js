@@ -75,11 +75,26 @@ document.addEventListener('DOMContentLoaded', event => {
   // Write code that needs to run after the DOM is fully loaded in here
   const questionList = q('#question-list');
   const questionDetails = q('#question-details');
+  const nav = q('nav');
 
   Question
     .getAll()
     .then(renderQuestions)
     .then(html => { questionList.innerHTML = html });
+
+  nav.addEventListener('click', event => {
+    const {target} = event;
+    event.preventDefault();
+
+    const href = target.getAttribute('data-href');
+
+    switch (href) {
+      case 'question-list':
+        questionDetails.classList.add('hidden');
+        questionList.classList.remove('hidden');
+        break;
+    }
+  })
 
   questionList.addEventListener('click', event => {
     const {target} = event;
