@@ -14,6 +14,10 @@ a:active {
   color: SkyBlue;
 }
 
+.hidden {
+  display: none;
+}
+
 #question-list > *:not(:last-child) {
   margin-bottom: 10px;
 }

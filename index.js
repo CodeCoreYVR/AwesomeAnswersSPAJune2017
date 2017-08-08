@@ -56,22 +56,48 @@ function renderQuestions (questions = []) {
   return questions
     .map(question => `
       <div class='question-summary'>
-        <a href>${question.title}</a>
+        <a data-id=${question.id} href>${question.title}</a>
       </div>
     `)
     .join('');
 }
 
+function renderQuestion (question = {}) {
+  const {author = {}} = question;
+  return `
+    <h1>${question.title}</h1>
+    <p>${question.body}</p>
+    <p><strong>Author:</strong> ${author.first_name} ${author.last_name}</p>
+  `
+}
+
 document.addEventListener('DOMContentLoaded', event => {
   // Write code that needs to run after the DOM is fully loaded in here
   const questionList = q('#question-list');
+  const questionDetails = q('#question-details');
 
   Question
     .getAll()
     .then(renderQuestions)
-    .then(html => {
-      questionList.innerHTML = html;
-    });
+    .then(html => { questionList.innerHTML = html });
+
+  questionList.addEventListener('click', event => {
+    const {target} = event;
+
+    if (target.matches('.question-summary > a')) {
+      event.preventDefault();
+      const id = target.getAttribute('data-id');
+
+      Question
+        .get(id)
+        .then(renderQuestion)
+        .then(html => {
+          questionDetails.innerHTML = html;
+          questionDetails.classList.remove('hidden');
+          questionList.classList.add('hidden');
+        });
+    }
+  });
 });
 
 
