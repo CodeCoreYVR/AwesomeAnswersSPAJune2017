@@ -21,3 +21,23 @@ a:active {
 #question-list > *:not(:last-child) {
   margin-bottom: 10px;
 }
+
+#answer-list > *:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.answer-summary {
+  background-color: WhiteSmoke;
+  border-left: solid medium DeepSkyBlue;
+  padding: 0.1px 5px;
+}
+
+
+
+
+
+
+
+
+
+/* */
